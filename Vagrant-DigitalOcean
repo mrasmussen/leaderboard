@@ -1,0 +1,18 @@
+Vagrant.require_plugin 'vagrant-digitalocean'
+
+Vagrant.configure("2") do |config|
+    config.vm.provider :digital_ocean do |provider, override|
+        provider.client_id = '22c5d29057d49f61a8800f9a05fba513'
+        provider.api_key = '50dc9870b4a3a87f66b1b162023d0767'
+        provider.image = 'Ubuntu 12.04.3 x64'
+        provider.region = 'San Francisco 1'
+        provider.size = '512MB'
+        provider.ssh_key_name = 'KeyName'
+        override.ssh.private_key_path = '/path/to/your/key'
+        override.vm.box = 'digital_ocean'
+        override.vm.box_url = "https://github.com/smdahlen/vagrant-digitalocean/raw/master/box/digital_ocean.box"
+        provider.ca_path = "/usr/local/opt/curl-ca-bundle/share/ca-bundle.crt"
+    end
+    config.vm.provision :shell, :path => "node-bootstrap.sh"
+    config.vm.network :private_network, ip: '10.0.33.34'
+end

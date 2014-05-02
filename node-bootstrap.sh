@@ -34,6 +34,26 @@ then
     #Install forever
     npm install forever -g
 
+    #Install Express
+    npm install -g express-generator
+    cd /var/www/
+    # express - no need to add default files anymore
+    npm install
+
+    #Start Node Server with Forever
+    forever -w start bin/www
+
+    # Copy node-forever to startup folder so that server will start on machine reboot
+    mv /var/www/server_scripts/node-forever /etc/init.d/
+    cd /etc/init.d/
+    chown root:root node-forever
+    chmod 755 node-forever
+    update-rc.d node-forever defaults
+
+    # Production ONLY: Find a way to add the below line to /etc/rc.local this forwards port 80 to port 3000
+    # iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 3000
+
+
     # Symlink our host www to the guest /var/www folder
     ln -s /vagrant/www /var/www
 
