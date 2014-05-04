@@ -35,7 +35,7 @@ then
     npm install forever -g
 
     # Symlink our host www to the guest /var/www folder
-    ln -s /vagrant/www/var/www
+    ln -s /vagrant/www /var/www
 
     #Install Express
     npm install -g express-generator
