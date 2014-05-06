@@ -570,11 +570,11 @@ a:hover {
 }
 
 a, a:visited {
-    color: #3f729b;
+    color: #687e10;
 }
 
 a:hover {
-    color: #1c5380;
+    color: #97b818;
 }
 
 code {
@@ -5336,7 +5336,7 @@ html.touch .page-home .content .home-login.pressed {
     font-size: 27px;
     line-height: 32px;
     margin-right: 35%;
-    color: #06365f;
+    color: #687e10;
 }
 
 .tab-content p {
