@@ -19,14 +19,14 @@ start() {
         start_daemon
 
         # Notice that we change the PATH because on reboot
-   # the PATH does not include the path to node.
-   # Launching forever with a full path
-   # does not work unless we set the PATH.
-   PATH=/usr/bin:$PATH
-        export NODE_ENV=production
-   #PORT=80
-   forever start --pidFile $pidFile -l $logFile -a -d $nodeApp
-   RETVAL=$?
+        # the PATH does not include the path to node.
+        # Launching forever with a full path
+        # does not work unless we set the PATH.
+        PATH=/usr/bin:$PATH
+            export NODE_ENV=production
+        #PORT=80
+        forever start --pidFile $pidFile -l $logFile -a -d $nodeApp
+        RETVAL=$?
 }
 
 restart() {

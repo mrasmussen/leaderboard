@@ -5208,7 +5208,7 @@ body {
     left: 10px;
     width: 375px;
     height: 64px;
-    background: url(/images/logo/leaderboardtour-white-large.png) no-repeat 0 0;
+    background: url(/images/logo/leaderboardtour-home.png) no-repeat 0 0;
     text-indent: -9999em;
 }
 
@@ -5322,7 +5322,7 @@ html.touch .page-home .content .home-login.pressed {
 
 @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
     .page-home .content .instagram-title {
-        background-image: url(/images/logo/leaderboardtour-white-large.png);
+        background-image: url(/images/logo/leaderboardtour-home@2x.png);
         background-size: 375px 64px;
     }
 
