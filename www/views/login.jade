@@ -1,0 +1,14 @@
+// Created by Matt on 5/7/14.
+
+extends layout
+
+block content
+    <form method="POST" id="login-form" class="adjacent" action="/login/">
+    <p><label for="id_username">Username:</label> <input name="username" maxlength="30" autocapitalize="off" autocorrect="off" id="id_username" type="text"></p>
+    <p><label for="id_password">Password:</label> <input autocapitalize="off" autocorrect="off" name="password" id="id_password" type="password"></p>
+    <p class="form-actions">
+    <a href="/accounts/password/reset/">Forgot password?</a>
+    <input type="hidden" name="returnUrl" value="#{requestUrl}">
+    <input class="button-green" value="Log in" type="submit">
+    </p>
+    </form>

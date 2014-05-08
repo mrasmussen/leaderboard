@@ -3,8 +3,8 @@
  */
 
 module.exports.validateSession = function(req, res, next) {
-    if(!req.cookies.session) {
-        return res.redirect('/login?msg=noauth&req=' + req.originalUrl);
+    if(!req.cookies._session_id) {
+        return res.redirect('/login?msg=noauth&returnUrl=' + req.originalUrl);
     }
     next();
 }
