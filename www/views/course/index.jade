@@ -1,14 +1,8 @@
 // Created by mrasmussen on 5/8/14.
 extends ../layout
 block head
-    | <style type="text/css">
-    |    html { height: 100% }
-    |    body { height: 100%; margin: 0; padding: 0 }
-    |    #map_canvas { height: 100% }
-    |    #nav { height: 40px; width: 100% }
-    |    #logout { float: right }
-    | </style>
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=geometry"></script>
+    link(rel="stylesheet", type="text/css", href="/stylesheets/course/main.css")
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=geometry,places"></script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
     <script type="text/javascript" src="http://sdk.cocoafish.com/js/cocoafish-1.2.min.js"></script>
     <script type="text/javascript" src="/js/maplabel.js"></script>
@@ -20,6 +14,7 @@ block head
 block content
     <body onload="initialize()">
     <div id="nav">the nav <a href="/logout" id="logout">Logout</a></div>
+    <input id="pac-input" class="controls" type="text" placeholder="Search Box">
     <!-- <div id="map_canvas" style="width: 1000px; height: 1000px;">map div</div> -->
     <div id="map_canvas" style="width:100%; height:100%"></div>
     </body>
