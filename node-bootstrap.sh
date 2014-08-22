@@ -43,6 +43,10 @@ then
     # express - no need to add default files anymore
     npm install
 
+    #Install ejs and consolidate
+    npm install ejs
+    npm install consolidate
+
     # Copy node-forever to startup folder so that server will start on machine reboot
     cp /var/www/server_scripts/node-forever /etc/init.d/
     cd /etc/init.d/

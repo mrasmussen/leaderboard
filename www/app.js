@@ -32,6 +32,10 @@ app.locals.author = {
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
+// app.js
+app.engine('jade', require('jade').__express);
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'html');
 app.set('view engine', 'jade');
 
 app.use(favicon(__dirname + '/public/images/logo/favicon.ico'));
