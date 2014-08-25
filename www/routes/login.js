@@ -2,36 +2,34 @@
  * Created by Matt on 5/7/14.
  */
 
-var express = require('express');
-var router = express.Router();
-var ACS = require('acs-node');
+module.exports = function(app, passport) {
 
-/* GET users listing. */
-router.get('/', function(req, res) {
-    var returnUrl = encodeURIComponent(req.query.returnUrl);
-    res.render('login', {requestUrl: returnUrl});
-});
-
-router.post('/', function(req, res) {
-    login(req, res);
-});
-
-function login(req, res) {
-    var data = {
-        login: req.body.username,
-        password: req.body.password
-    };
-    ACS.Users.login(data, function(response){
-        if(response.success) {
-            console.log("Successful to login.");
-            console.log("UserInfo: " + JSON.stringify(response.users[0], null, 2))
+    // =====================================
+    // LOGIN ===============================
+    // =====================================
+    app.route('/login')
+        // show the login form
+        .get(function(req, res) {
+            // render the page and pass in any flash data if it exists
+            //res.render('login.ejs', { message: req.flash('loginMessage') });
+            var returnUrl = encodeURIComponent(req.query.returnUrl);
+            res.render('login.html', { message: req.flash('loginMessage'), returnUrl: returnUrl});
+        })
+        // process the login form
+        .post(passport.authenticate('local-login', {
+            failureRedirect: '/login', // redirect back to the signup page if there is an error
+            failureFlash: true // allow flash messages
+        }),function(req, res) {
+            // If this function gets called, authentication was successful.
             var returnUrl = decodeURIComponent(req.body.returnUrl);
-            //res.send('Return url = ' + returnUrl + ' <a href="/logout">Logout</a>');
             res.redirect(returnUrl);
-        } else {
-            console.log("Error to login: " + response.message);
-        }
-    }, req, res);
-}
+        });
 
-module.exports = router;
+    // =====================================
+    // LOGOUT ==============================
+    // =====================================
+    app.get('/logout', function(req, res) {
+        req.logout();
+        res.redirect('/');
+    });
+};

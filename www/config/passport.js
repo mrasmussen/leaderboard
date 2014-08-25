@@ -4,19 +4,14 @@
 
 // load all the things we need
 var LocalStrategy   = require('passport-local').Strategy;
-
+var bcrypt   = require('bcrypt-nodejs');
 // db.user.insert({ "local" : { "email" : "mattras2@gmail.com", "password" : "happy" }})
 
-// use monk
-var monk = require("monk");
-var db = monk('localhost:27017/leaderboard');
-var User = db.get('user');
-
-var bcrypt   = require('bcrypt-nodejs');
 
 // expose this function to our app using module.exports
-module.exports = function(passport) {
+module.exports = function(passport, db) {
 
+    var User = db.get('user');
     // =========================================================================
     // passport session setup ==================================================
     // =========================================================================
@@ -43,8 +38,8 @@ module.exports = function(passport) {
     };
 
     // checking if password is valid
-    passport.validPassword = function(password) {
-        return bcrypt.compareSync(password, this.local.password);
+    passport.validPassword = function(password, userpwd) {
+        return bcrypt.compareSync(password, userpwd);
     };
 
     // =========================================================================
@@ -99,6 +94,41 @@ module.exports = function(passport) {
 
                 });
 
+            });
+
+        }));
+
+    // =========================================================================
+    // LOCAL LOGIN =============================================================
+    // =========================================================================
+    // we are using named strategies since we have one for login and one for signup
+    // by default, if there was no name, it would just be called 'local'
+
+    passport.use('local-login', new LocalStrategy({
+            // by default, local strategy uses username and password, we will override with email
+            usernameField : 'email',
+            passwordField : 'password',
+            passReqToCallback : true // allows us to pass back the entire request to the callback
+        },
+        function(req, email, password, done) { // callback with email and password from our form
+
+            // find a user whose email is the same as the forms email
+            // we are checking to see if the user trying to login already exists
+            User.findOne({ 'local.email' :  email }, function(err, user) {
+                // if there are any errors, return the error before anything else
+                if (err)
+                    return done(err);
+
+                // if no user is found, return the message
+                if (!user)
+                    return done(null, false, req.flash('loginMessage', 'No user found.')); // req.flash is the way to set flashdata using connect-flash
+
+                // if the user is found but the password is wrong
+                if (!passport.validPassword(password, user.local.password))
+                    return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.')); // create the loginMessage and save it to session as flashdata
+
+                // all is well, return successful user
+                return done(null, user);
             });
 
         }));

@@ -63,14 +63,13 @@ app.use(function(req,res,next){
     next();
 });
 
-require('./config/passport')(passport); // pass passport for configuration
+require('./config/passport')(passport, db); // pass passport for configuration
 
 app.use('/', routes);
 app.use('/users', users);
-app.use('/login', login);
-app.use('/logout', logout);
+require('./routes/login')(app, passport);
 app.use('/course', course);
-require('./routes/signup')(app, passport); // load our routes and pass in our app and fully configured passport
+require('./routes/signup')(app, passport);
 //app.use('/signup','./routes/signup')(app, passport);
 
 /// catch 404 and forwarding to error handler

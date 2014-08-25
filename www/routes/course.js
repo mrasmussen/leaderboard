@@ -4,7 +4,7 @@ var auth = require('../config/authorization');
 var ACS = require('acs-node');
 
 /* GET users listing. */
-router.get('/search', auth.validateSession, function(req, res) {
+router.get('/search', auth.isLoggedIn, function(req, res) {
     res.render('course/search.html');
     //res.send('respond with course file <a href="/logout">Logout</a>');
 });

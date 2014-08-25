@@ -4,6 +4,15 @@ html, body, #map-canvas {
     padding: 0px
 }
 
+#nav {
+    height: 40px;
+    width: 100%
+}
+
+#logout {
+    float: right
+}
+
 .controls {
     margin-top: 16px;
     border: 1px solid transparent;
