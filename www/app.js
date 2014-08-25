@@ -4,6 +4,12 @@ var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require('express-session');
+var mongo = require('mongodb');
+var monk = require('monk');
+var db = monk('localhost:27017/leaderboard');
+var passport = require('passport');
+var flash 	 = require('connect-flash');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -40,16 +46,32 @@ app.set('view engine', 'jade');
 
 app.use(favicon(__dirname + '/public/images/logo/favicon.ico'));
 app.use(logger('dev'));
+app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// required for passport
+app.use(session({ secret: 'leaderboardtourrocksmysocks' })); // session secret
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+app.use(flash()); // use connect-flash for flash messages stored in session
+
+// Make our db accessible to our router
+app.use(function(req,res,next){
+    req.db = db;
+    next();
+});
+
+require('./config/passport')(passport); // pass passport for configuration
 
 app.use('/', routes);
 app.use('/users', users);
 app.use('/login', login);
 app.use('/logout', logout);
 app.use('/course', course);
+require('./routes/signup')(app, passport); // load our routes and pass in our app and fully configured passport
+//app.use('/signup','./routes/signup')(app, passport);
 
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {
