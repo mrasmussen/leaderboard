@@ -12,7 +12,7 @@ var logout = require('./routes/logout');
 var course = require('./routes/course');
 
 var ACS = require('acs-node');
-ACS.init('bOO1LysryiIJgFHih9VrHxXWWg7eAxUF');
+ACS.init('UOCa9r785zth4gyMfdmmKGBfgDniXcpA');
 
 var app = express();
 

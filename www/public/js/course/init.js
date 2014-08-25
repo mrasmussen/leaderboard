@@ -2,9 +2,6 @@
  * Created by mrasmussen on 8/19/14.
  */
 
-
-var sdk = new Cocoafish('UOCa9r785zth4gyMfdmmKGBfgDniXcpA');  // app key
-
 function initialize() {
     var map = new google.maps.Map(document.getElementById('map-canvas'), {
         mapTypeId: google.maps.MapTypeId.HYBRID
@@ -73,7 +70,7 @@ function initialize() {
 
         infowindow.setContent('<div><strong>' + place.name + 'a realy realy realy long long long name</strong><br>' + address + '<br>' + place.geometry.location);
         infowindow.open(map, marker);
-        isCourseCreated();
+        isCourseCreated(place.geometry.location);
     });
 
     // Sets a listener on a radio button to change the filter type on Places
@@ -89,4 +86,5 @@ function initialize() {
      setupClickListener('changetype-all', []);
      */
 }
+
 google.maps.event.addDomListener(window, 'load', initialize);
