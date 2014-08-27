@@ -11,16 +11,11 @@ var db = monk('localhost:27017/leaderboard');
 var passport = require('passport');
 var flash 	 = require('connect-flash');
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
-var login = require('./routes/login');
-var logout = require('./routes/logout');
-var course = require('./routes/course');
-
 var ACS = require('acs-node');
 ACS.init('UOCa9r785zth4gyMfdmmKGBfgDniXcpA');
 
 var app = express();
+var router = express.Router();
 
 // local variables
 app.locals.site = {
@@ -65,12 +60,21 @@ app.use(function(req,res,next){
 
 require('./config/passport')(passport, db); // pass passport for configuration
 
-app.use('/', routes);
-app.use('/users', users);
-require('./routes/login')(app, passport);
-app.use('/course', course);
-require('./routes/signup')(app, passport);
-//app.use('/signup','./routes/signup')(app, passport);
+// Models
+var golfclubModel = require('./models/golfclub')(db);
+
+// Controllers
+var golfclub = require('./controllers/golfclub')(golfclubModel);
+
+
+// Load Routes
+var api = require('./routes/api')(app, router, golfclub);
+require('./routes/user')(app, passport);
+require('./routes/web')(app);
+
+// Use Level Specific Routes
+app.use('/api', api);
+
 
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {
